@@ -11,6 +11,16 @@
 <body>
     <header>
         <h1>Universitet API demo</h1>
+        <form id="search-form">
+            <input type="text" id="search-input" class="searchName" placeholder="Sök Universitet länd..." required />
+            <select id="results-count">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+            <button type="submit">Sök</button>
+        </form>
     </header>
     <main>
         <section id="movies-container">
