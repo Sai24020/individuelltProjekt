@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+* makes sizing simpler */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* remove default spacing */
+/* force styling of type through styling, rather than elements */
+* {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+/* min body height */
+body {
+    min-height: 100vh;
+}
+
+/* responsive images/videos */
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+/* make headings wrap better */
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+p,
+li,
+figcaption {
+    text-wrap: pretty;
+    max-width: auto;
+}
+
+h1,
+hr {
+    line-height: 3rem;
+    margin-bottom: 3rem;
+    color: rgb(224, 236, 236);
+    font-size: xx-large;
+    text-align: center;
+   
+}
+
+:root {
+    /* light */
+    --clr-BGCbody: #fcfafa;
+    --clr-Cbody: #0c0c0c;
+
+
+    /* dark */
+    --clr-darkBGCbody: #000000;
+    --clr-darkCbody: #f3f5f8;
+
+}
+
+body {
+    margin:0px 8px;
+    font-family: "Inter", serif;
+    background-color: var(--clr-BGCbody);
+    color: var(--clr-Cbody);
+}
+
+#bucketLists div {
+    margin-bottom: 20px;
+}
+
+h1
+{
+    font-size: 28px;
+}
+
+h2
+{
+    font-size: 24px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    html {
+        color-scheme: dark light;
+    }
+
+    body {
+        background-color: var(--clr-darkBGCbody);
+        color: var(--clr-darkCbody);
+    }
+}
+
+#movies-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+
+    article {
+        background-color: black;
+        color: white;
+        width: fit-content;
+        padding: 1rem;
+        cursor: pointer;
+        border-radius: 35px;
+        &:hover {
+            transform: scale(1.03);
+            transition: transform 0.2s;
+        }
+
+        figure {
+            margin: 0;
+            height: 350px;
+            width: 250px;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+
+            p {
+                margin: 0;
+
+                .rt-score {
+                    background-color: rgb(18, 18, 18);
+                    color: white;
+
+                }
+
+            }
+        }
+        h3 {
+            max-width: 250px;
+        }
+    }
+}
+/* إعدادات عامة */
+body {
+    font-family: 'Playwrite VN', Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #1080f8;
+
+}
+
+header {
+    background-color: #007bff;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 20px 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+footer {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    padding: 20px 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  
+}
+
+header h1 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: bold;
+
+}
+
+header div span {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0 10px;
+}
+
