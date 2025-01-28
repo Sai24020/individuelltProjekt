@@ -14,9 +14,9 @@ async function fetchUniversities() {
         // ändra i varje univerciteitsobjekt, så den får review och rating
         // loopa över listan
         data.forEach(university => {
-            university.alpha_two_code = "US";
+          /*  university.alpha_two_code = "US";*/
             university.state_province = null;
-            university.country = "United States"
+         /*   university.country = "United States"*/
             university.domains = [];
         });
         // spara svaret från API till LS
@@ -49,19 +49,21 @@ function renderUniversitiesToUI(universities) {
     universities.forEach((university) => {
         const universityContainerEl = document.createElement('article');
         // skapa element för bilden
-        const universityImgEl = document.createElement('figure');
-        universityImgEl.style.color = `black`;   //.backgroundColor = `url(${movie})`;
-        const universityNameEl = document.createElement('p');
+        const universityImgEl = document.createElement('h2');
+          //.backgroundColor = `url(${movie})`;
+        const universityNameEl = document.createElement('h2');
         universityNameEl.innerHTML = `<h2 class="rt-score">${university.name}</h2>`;
         universityImgEl.appendChild(universityNameEl);
 
         // lägg till figure på universityContainerEl
         universityContainerEl.appendChild(universityImgEl);
         // lägg till titel och release date på universitykortet
-        const universityCountryEl = document.createElement('h3');
+        const universityCountryEl = document.createElement('p');
+        universityCountryEl.style.backgroundColor = `red`; 
         universityCountryEl.innerText = university.country;
         universityContainerEl.appendChild(universityCountryEl);
         const releaseDateEl = document.createElement('p');
+        releaseDateEl.style.backgroundColor = `green`; 
         releaseDateEl.innerHTML = university.web_pages;
         universityContainerEl.appendChild(releaseDateEl);
 
