@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Universitysamling</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="universityView.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1 id="header-title">Namn på universitet</h1>
+        <label for="seen">
+            Sett:
+            <input type="checkbox" name="seenCheckbox" id="seen">
+        </label>
+    </header>
+    <main>
+        <img id="university-image">
+        <p id="university-rtRating"></p>
+        <h4>Huvd WebSidan på universitet:</h4>
+        <p id="university-description"></p>
+        <p id="university-rating">1/5</p>
+        <select id="university-rating-select">
+            <option value="1">1/5</option>
+            <option value="2">2/5</option>
+            <option value="3">3/5</option>
+            <option value="4">4/5</option>
+            <option value="5">5/5</option>
+        </select>
+    </main>
+</body>
+
+</html>

@@ -1,73 +1,120 @@
+console.log("Koden är länkad!");
 
-console.log("koden är länkad");
-const BASE_URL = "https://raw.githubusercontent.com/Hipo/university-domains-list/refs/heads/master/world_universities_and_domains.json";
+let latestQuery = "";
 
-// få data från API:et
-async function fetchUniversities() {
+// DOM referenser
+const formEl = document.getElementById("search-form");
+const inputEl = document.getElementById("searchInput");
+const universitiesContainerEl = document.getElementById("universities-container");
+const imageCountEl = document.getElementById("results-count");
+const nextPageBtn = document.getElementById("next-page-button");
+const prevPageBtn = document.getElementById("prev-page-button");
+const pageCountEl = document.getElementById("page-count");
+
+// Funktion för att hämta universitet baserat på land
+async function fetchUniversities(query, count) {
+    const endpoint = `http://universities.hipolabs.com/search?country=${query}`;
+    const flagEndpoint = `https://restcountries.com/v3.1/name/${query}`;
+
     try {
-        const response = await fetch(BASE_URL);
-        if (!response.ok) {
-            throw new Error(`Error status: ${response.status}`);
-        }
+        const response = await fetch(endpoint);
+        if (!response.ok) throw new Error(`Error: ${response.status}`);
+
         const data = await response.json();
+        console.log("Hämtade universitet:", data);
+        console.log(data.length);
+        // Begränsa antalet resultat enligt användarens val
+        const limitedResults = data.slice(0, count);
 
-        // ändra i varje univerciteitsobjekt, så den får review och rating
-        // loopa över listan
-        data.forEach(university => {
-          /*  university.alpha_two_code = "US";*/
-            university.state_province = null;
-         /*   university.country = "United States"*/
-            university.domains = [];
-        });
-        // spara svaret från API till LS
-        localStorage.setItem("world_universities_and_domains", JSON.stringify(data));
-    }
-    catch (error) {
-        console.error(error);
-    }
-};
+        // Spara i localStorage
+        localStorage.setItem("all_universities", JSON.stringify(limitedResults));
 
-function checkUniversities() {
-    // kolla om det redan finns universities i LS
-    const all_universities = JSON.parse(localStorage.getItem("world_universities_and_domains"));
-    if (all_universities) {
-        // i så fall: rendera från LS
-        renderUniversitiesToUI(all_universities);
-    } else {
-        // annars hämta data från API
-        fetchUniversities();
-        const updated_all_universities = JSON.parse(localStorage.getItem("all_universities"));
-        renderUniversitiesToUI(updated_all_universities);
-    }
-};
-checkUniversities();
+        // Rendera på sidan
+        renderUniversitiesToUI(limitedResults);
 
-// rendera från LS till mitt UI
+         // Hämta flagga
+         const flagResponse = await fetch(flagEndpoint);
+         if (!flagResponse.ok) throw new Error(`Error fetching flag: ${flagResponse.status}`);
+         
+         const flagData = await flagResponse.json();
+         const flagUrl = flagData[0]?.flags?.svg || '';  // Hämta flagg-URL
+          
+         //Lösa Problem 1 : Behöver vissa flagg image(.svg) och byta flagg efter söka annan länd(country) ??
+ 
+         // Sätt bakgrundsbilden för landet
+         setCountryBackground(flagUrl);    // ??  Det finns lite problem när jag söka annan länd funkar bra att byta flagg men gammla lokal storage finns forfatarande i web browser
+ 
+    } catch (error) {
+        console.error("Fel vid hämtning av universitet:", error);
+    }
+}
+
+// Funktion för att sätta bakgrundsbild för landet
+function setCountryBackground(flagUrl) {
+    const body = document.body;
+    if (flagUrl) {
+        body.style.backgroundImage = `url(${flagUrl})`;
+        body.style.backgroundSize = 'cover';
+        body.style.backgroundPosition = 'center';
+        body.style.backgroundAttachment = 'fixed';
+        body.style.transition = 'background-image 0.5s ease-in-out';
+    }
+}
+
+// Funktion för att rendera universitet på sidan
 function renderUniversitiesToUI(universities) {
-    console.log(universities);
-    const universitiesContainerEl = document.getElementById('movies-container');
-    universities.forEach((university) => {
-        const universityContainerEl = document.createElement('article');
-        // skapa element för bilden
-        const universityImgEl = document.createElement('h2');
-          //.backgroundColor = `url(${movie})`;
-        const universityNameEl = document.createElement('h2');
-        universityNameEl.innerHTML = `<h2 class="rt-score">${university.name}</h2>`;
-        universityImgEl.appendChild(universityNameEl);
+    universitiesContainerEl.innerHTML = "";
 
-        // lägg till figure på universityContainerEl
-        universityContainerEl.appendChild(universityImgEl);
-        // lägg till titel och release date på universitykortet
-        const universityCountryEl = document.createElement('p');
-        universityCountryEl.style.backgroundColor = `red`; 
-        universityCountryEl.innerText = university.country;
-        universityContainerEl.appendChild(universityCountryEl);
-        const releaseDateEl = document.createElement('p');
-        releaseDateEl.style.backgroundColor = `green`; 
-        releaseDateEl.innerHTML = university.web_pages;
-        universityContainerEl.appendChild(releaseDateEl);
+    if (!universities || universities.length === 0) {
+        universitiesContainerEl.innerHTML = "<p>Inga universitet hittades.</p>";
+        return;
+    }
 
-        // till sist lägger vi till nya elementet i vår HTML
-        universitiesContainerEl.appendChild(universityContainerEl);
-    });
-};
+    const universityCardsAsString = universities.map((u) => createUniversityCard(u)).join("");
+    universitiesContainerEl.innerHTML = universityCardsAsString;
+}
+
+// Funktion för att skapa ett universitet-kort
+function createUniversityCard(university) {
+    return `
+    <article id="${university.name}">
+        <figure style="backgroundImage = url(${flagUrl}); border-radius: 15px;">
+            <label for="${university.country}" style="margin-left: 2rem; display: inline-block;">${university.country} </label>
+            <input class="like-checkbox" id="${university.name}" type="checkbox">
+     
+        <h2 style=" font-wight: bold; color: red; height: 6rem; ">${university.name}</h2>
+        <a href="${university.web_pages ? university.web_pages[0] : '#'}" target="_blank" style= "text-align:center ;height: 6rem; width: 6rem; background-color: white; border-radius: 15px;">
+            Besök universitetets webbplats
+        </a>   </figure>
+    </article>
+    `;
+}
+
+// Eventlyssnare på sökformuläret
+formEl.addEventListener("submit", (event) => {
+    event.preventDefault();
+    console.log("Sökning startad!");
+
+    const query = inputEl.value.trim();
+    const count = parseInt(imageCountEl.value, 10) || 10;
+
+    if (query) {
+        fetchUniversities(query, count);
+        latestQuery = query;
+        inputEl.value = "";
+    }
+});
+
+// Funktion för att ladda sparade universitet från localStorage vid sidladdning
+function checkUniversities() {
+    const allUniversities = JSON.parse(localStorage.getItem("all_universities")) || [];
+   
+    if (allUniversities.length > 0) {
+        renderUniversitiesToUI(allUniversities);
+    } else {
+        console.log("Inga universitet sparade i LocalStorage ännu.");
+    }
+}
+
+// Kör vid sidladdning
+checkUniversities();

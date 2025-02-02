@@ -3,30 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Individuellt Projekt</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
+    <title>Min Universitysamling</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>  
+  
+
 
 </head>
 <body>
     <header>
         <h1>Universitet API demo</h1>
         <form id="search-form">
-            <input type="text" id="search-input" class="searchName" placeholder="Sök Universitet länd..." required />
+            <input type="text" id="searchInput" class="searchName" placeholder="Sök Universitet länd..." required />
             <select id="results-count">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
+                <option value="3">3</option>
+                <option value="9">9</option>
+                <option value="12">12</option>
+                <option value="15">15</option>
+                <option value="30">30</option><!--${alpha_two_code}-->
             </select>
-            <button type="submit">Sök</button>
+            <button type="submit" id="btnSearch">Sök</button>
         </form>
     </header>
     <main>
-        <section id="movies-container">
+        <section id="universities-container">
         </section>
-    </main>
+
     <footer>
+      
+      </div>
         <h2>Kul att blända bland fakta om Universitet på min sida</h2>
     </footer>
 </body>
